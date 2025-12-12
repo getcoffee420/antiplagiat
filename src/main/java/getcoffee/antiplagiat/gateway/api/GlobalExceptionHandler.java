@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     private static final HttpStatus STATUS_TOO_LARGE = HttpStatus.valueOf(413);
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<ErrorResponse> tooLarge(MaxUploadSizeExceededException ex, HttpServletRequest req) {
+    public ResponseEntity<ErrorResponse> tooLarge(HttpServletRequest req) {
         return build(req, STATUS_TOO_LARGE, "File too large");
     }
 

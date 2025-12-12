@@ -1,11 +1,10 @@
-package getcoffee.antiplagiat.gateway.api;
-
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 
 public record ErrorResponse(
-        Instant timestamp,
+        @NotNull Instant timestamp,
         int status,
-        String error,
-        String message,
-        String path
+        @NotNull String error,
+        @NotNull String message,
+        @NotNull String path
 ) {}
