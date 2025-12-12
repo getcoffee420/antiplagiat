@@ -31,7 +31,7 @@ public class WorksController {
     ) throws Exception {
 
         byte[] bytes = file.getBytes();
-        String sha256 = Hashing.sha256Hex(bytes);
+        String sha256 = Hashing.hash(bytes);
 
         String fileId = storage.upload(file);
 
