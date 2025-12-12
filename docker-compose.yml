@@ -1,0 +1,58 @@
+services:
+  storage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: storage
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_PORT=8081
+      - STORAGE_DIR=/data
+      - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=50MB
+      - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=50MB
+    volumes:
+      - storage_data:/data
+    networks:
+      - appnet
+
+  analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: analysis
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVER_PORT=8082
+    networks:
+      - appnet
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - storage
+      - analysis
+    environment:
+      - SERVER_PORT=8080
+      - SERVICES_STORAGEURL=http://storage:8081
+      - SERVICES_ANALYSISURL=http://analysis:8082
+      - SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE=50MB
+      - SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE=50MB
+    networks:
+      - appnet
+
+volumes:
+  storage_data:
+
+networks:
+  appnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.200.0.0/24
