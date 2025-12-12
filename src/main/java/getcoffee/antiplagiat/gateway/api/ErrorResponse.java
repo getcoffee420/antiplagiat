@@ -1,3 +1,4 @@
+package getcoffee.antiplagiat.gateway.api;
 import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 
