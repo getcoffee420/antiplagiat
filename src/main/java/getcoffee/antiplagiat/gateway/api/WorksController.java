@@ -31,7 +31,7 @@ public class WorksController {
     ) throws Exception {
 
         byte[] bytes = file.getBytes();
-        String sha256 = Hashing.hash(bytes);
+        String hash = Hashing.hash(bytes);
 
         String fileId = storage.upload(file);
 
@@ -42,7 +42,7 @@ public class WorksController {
                 student,
                 task,
                 fileId,
-                sha256
+                hash
         ));
 
         return new CreateWorkResponse(workId, fileId);

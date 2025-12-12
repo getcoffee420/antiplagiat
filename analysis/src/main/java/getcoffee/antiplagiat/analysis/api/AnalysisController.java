@@ -12,10 +12,10 @@ public class AnalysisController {
         this.store = store;
     }
 
-    public record StartAnalysisRequest(String workId, String student, String task, String fileId, String sha256) {}
+    public record StartAnalysisRequest(String workId, String student, String task, String fileId, String hash) {}
 
     @PostMapping("/analysis")
     public void start(@RequestBody StartAnalysisRequest req) {
-        store.analyze(req.workId(), req.student(), req.task(), req.sha256());
+        store.analyze(req.workId(), req.student(), req.task(), req.hash());
     }
 }
