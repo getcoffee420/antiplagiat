@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponse> badRequest(MethodArgumentTypeMismatchException ex, HttpServletRequest req) {
-        return build(req, HttpStatus.BAD_REQUEST, String.valueOf(ex.getMessage()));
+        return build(req, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
