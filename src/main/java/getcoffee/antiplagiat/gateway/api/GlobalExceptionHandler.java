@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
         return build(req, HttpStatus.PAYLOAD_TOO_LARGE, "File too large");
     }
 
-    // storage/analysis не доступны: connection refused, timeout и т.д.
     @ExceptionHandler(ResourceAccessException.class)
     public ResponseEntity<ErrorResponse> downstreamUnavailable(ResourceAccessException ex, HttpServletRequest req) {
         String msg = ex.getMessage();
@@ -34,10 +33,9 @@ public class GlobalExceptionHandler {
     }
 
 
-    // storage/analysis ответили 4xx/5xx (RestClient кинет это исключение)
     @ExceptionHandler(RestClientResponseException.class)
     public ResponseEntity<ErrorResponse> downstreamError(RestClientResponseException ex, HttpServletRequest req) {
-        // Можно прокидывать как есть, это честно:
+
         HttpStatus status = HttpStatus.resolve(ex.getStatusCode().value());
         if (status == null) status = HttpStatus.BAD_GATEWAY;
 
@@ -48,7 +46,6 @@ public class GlobalExceptionHandler {
         return build(req, status, msg);
     }
 
-    // всё остальное
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> other(Exception ex, HttpServletRequest req) {
         return build(req, HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
